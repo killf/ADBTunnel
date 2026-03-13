@@ -40,9 +40,8 @@ public class TunnelForegroundService extends Service {
         commandExecutor = new CommandExecutor(this);
 
         String serverUrl = PrefsHelper.getServerUrl(this);
-        String token = PrefsHelper.getToken(this);
 
-        wsClient = new WsClient(serverUrl, token, new WsFrameHandler() {
+        wsClient = new WsClient(serverUrl, new WsFrameHandler() {
             @Override
             public void onConnected() {
                 sendRegisterFrame();

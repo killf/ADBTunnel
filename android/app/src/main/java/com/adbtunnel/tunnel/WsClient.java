@@ -14,15 +14,13 @@ import okio.ByteString;
 public class WsClient {
     private final OkHttpClient httpClient;
     private final String serverUrl;
-    private final String token;
     private final WsFrameHandler frameHandler;
     private final ReconnectScheduler reconnectScheduler;
     private WebSocket webSocket;
     private volatile boolean userStopped = false;
 
-    public WsClient(String serverUrl, String token, WsFrameHandler frameHandler) {
+    public WsClient(String serverUrl, WsFrameHandler frameHandler) {
         this.serverUrl = serverUrl;
-        this.token = token;
         this.frameHandler = frameHandler;
         this.httpClient = new OkHttpClient.Builder()
             .readTimeout(0, TimeUnit.MILLISECONDS)
@@ -38,7 +36,6 @@ public class WsClient {
         }
         Request request = new Request.Builder()
             .url(wsUrl)
-            .header("Authorization", "Bearer " + token)
             .build();
         webSocket = httpClient.newWebSocket(request, new InternalListener());
     }

@@ -20,7 +20,6 @@ public class ConfigActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.etServerUrl.setText(PrefsHelper.getServerUrl(this));
-        binding.etToken.setText(PrefsHelper.getToken(this));
 
         binding.btnSave.setOnClickListener(v -> save());
         binding.btnCancel.setOnClickListener(v -> finish());
@@ -28,7 +27,6 @@ public class ConfigActivity extends AppCompatActivity {
 
     private void save() {
         String url = binding.etServerUrl.getText().toString().trim();
-        String token = binding.etToken.getText().toString().trim();
 
         if (TextUtils.isEmpty(url)) {
             binding.etServerUrl.setError("服务器地址不能为空");
@@ -38,13 +36,8 @@ public class ConfigActivity extends AppCompatActivity {
             binding.etServerUrl.setError("地址应以 ws:// 或 wss:// 开头");
             return;
         }
-        if (TextUtils.isEmpty(token)) {
-            binding.etToken.setError("Token 不能为空");
-            return;
-        }
 
         PrefsHelper.setServerUrl(this, url);
-        PrefsHelper.setToken(this, token);
         Toast.makeText(this, "已保存", Toast.LENGTH_SHORT).show();
         finish();
     }

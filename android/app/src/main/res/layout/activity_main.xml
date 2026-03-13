@@ -40,14 +40,14 @@
             android:layout_marginTop="4dp" />
     </LinearLayout>
 
-    <!-- 设备信息卡片 -->
+    <!-- 配置卡片 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/card_bg"
         android:padding="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="24dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,47 +63,34 @@
             android:text="—"
             android:textSize="13sp"
             android:fontFamily="monospace"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="服务器"
+            android:text="服务器地址"
             android:textSize="12sp"
-            android:textColor="#888888"
-            android:layout_marginTop="12dp" />
+            android:textColor="#888888" />
 
-        <TextView
-            android:id="@+id/tv_server_url"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/et_server_url"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="—"
-            android:textSize="13sp"
+            android:hint="ws://192.168.1.1:8080"
+            android:inputType="textUri"
             android:fontFamily="monospace"
-            android:layout_marginTop="4dp" />
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:singleLine="true" />
     </LinearLayout>
 
-    <!-- 操作按钮 -->
-    <LinearLayout
+    <!-- 启动/停止按钮 -->
+    <Button
+        android:id="@+id/btn_toggle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_toggle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="启动"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/btn_config"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="配置"
-            style="@style/Widget.AppCompat.Button.Borderless" />
-    </LinearLayout>
+        android:layout_height="56dp"
+        android:text="启动服务"
+        android:textSize="16sp" />
 
 </LinearLayout>

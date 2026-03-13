@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.adbtunnel.databinding.ActivitySetupBinding;
 import com.adbtunnel.device.AdbStateChecker;
-import com.adbtunnel.util.PrefsHelper;
 
 public class SetupActivity extends AppCompatActivity {
 
@@ -51,14 +50,7 @@ public class SetupActivity extends AppCompatActivity {
             return;
         }
 
-        if (!PrefsHelper.isConfigured(this)) {
-            showState("ADB 调试已就绪 ✓",
-                "请配置服务器地址和 Token 以启动隧道。",
-                false, true);
-            return;
-        }
-
-        // 一切就绪，跳转主界面
+        // ADB 已就绪，直接跳转主界面
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,11 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         String deviceId = DeviceRegistry.getOrCreateDeviceId(this);
         binding.tvDeviceId.setText(deviceId);
-        binding.tvServerUrl.setText(PrefsHelper.getServerUrl(this));
+        binding.etServerUrl.setText(PrefsHelper.getServerUrl(this));
 
         binding.btnToggle.setOnClickListener(v -> toggleService());
-        binding.btnConfig.setOnClickListener(v ->
-            startActivity(new Intent(this, ConfigActivity.class)));
     }
 
     @Override
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             registerReceiver(tunnelReceiver, filter);
         }
-        binding.tvServerUrl.setText(PrefsHelper.getServerUrl(this));
     }
 
     @Override
@@ -65,8 +63,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toggleService() {
-        Intent intent = new Intent(this, TunnelForegroundService.class);
         if (!serviceRunning) {
+            String url = binding.etServerUrl.getText().toString().trim();
+            if (TextUtils.isEmpty(url)) {
+                binding.etServerUrl.setError("请输入服务器地址");
+                return;
+            }
+            PrefsHelper.setServerUrl(this, url);
+
+            Intent intent = new Intent(this, TunnelForegroundService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(intent);
             } else {
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             serviceRunning = true;
             updateStatus("连接中…", true);
         } else {
+            Intent intent = new Intent(this, TunnelForegroundService.class);
             intent.setAction(TunnelForegroundService.ACTION_STOP);
             startService(intent);
             serviceRunning = false;
@@ -84,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateStatus(String status, boolean running) {
         binding.tvStatus.setText(status);
-        binding.btnToggle.setText(running ? "停止" : "启动");
+        binding.btnToggle.setText(running ? "停止服务" : "启动服务");
         serviceRunning = running;
     }
 }
